@@ -1,0 +1,15 @@
+Business Time is a small Android app built to automatically count your work time.
+
+Time counting works by inserting timed events (at_work / not_at_work) into a database. The time periods are calculated from the events.
+There are a few unit tests implemented in the TimeManagerTests class to help guarantee that the time calculations are accurate.
+
+Currently the only method to feed events into the database is via WiFi detection: new events are automatically generated when your phone (dis)connects to a pre-configured WiFi network.
+Other possible methods of detection would be through the use of bluetooth beacons, NFC, geofences, or a combination of the above. It might also make sense to plug into automation apps such as Llama.
+
+A small to do list:
+- UI for creating new events manually
+- UI for deleting events
+- Notifications
+  - Persistant notification while at work
+  - Dismissable notification after leaving work
+
