@@ -3,4 +3,9 @@
 	<EditTextPreference
 		android:key="monitor_ssid"
 		android:title="SSID" />
+
+	<CheckBoxPreference
+		android:key="show_notifications"
+		android:title="Show notifications"
+		android:defaultValue="true" />
 </PreferenceScreen>

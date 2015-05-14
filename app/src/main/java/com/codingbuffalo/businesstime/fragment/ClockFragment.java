@@ -23,7 +23,6 @@ public class ClockFragment extends Fragment implements TimeManager.OnTimeListene
 
 	public ClockFragment() {
 		mTickHandler = new Handler();
-		mRecycleStringBuilder = new StringBuilder();
 	}
 
 	@Nullable
@@ -72,11 +71,11 @@ public class ClockFragment extends Fragment implements TimeManager.OnTimeListene
 		}
 
 		mTimeCounterView.setText(elapsedTime);
-		mWorkStatusView.setText(tm.isCacheAtWork() ? "At work" : "Left work");
+		mWorkStatusView.setText(tm.isAtWork() ? "At work" : "Left work");
 		mBalanceView.setText(balanceTime);
 
 		// Schedule an update after 1 second
-		if (tm.isCacheAtWork()) {
+		if (tm.isAtWork()) {
 			mTickHandler.postDelayed(mTicker, 1000);
 		}
 	}

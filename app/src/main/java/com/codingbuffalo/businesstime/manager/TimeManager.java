@@ -109,7 +109,7 @@ public class TimeManager {
 		mCacheBalance = 0;
 	}
 
-	public boolean isCacheAtWork() {
+	public boolean isAtWork() {
 		return mCacheAtWork;
 	}
 

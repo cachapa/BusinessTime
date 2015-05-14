@@ -8,8 +8,5 @@ Other possible methods of detection would be through the use of bluetooth beacon
 
 A small to do list:
 - UI for creating new events manually
-- UI for deleting events
-- Notifications
-  - Persistant notification while at work
-  - Dismissable notification after leaving work
-
+- UI for deleting events manually
+- Simple Android wear app to show ongoing time at work
