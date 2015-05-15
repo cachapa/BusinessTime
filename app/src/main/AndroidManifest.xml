@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.codingbuffalo.businesstime"
+<manifest
+	package="com.codingbuffalo.businesstime"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -41,6 +42,10 @@
 		</receiver>
 
 		<service android:name=".service.NotificationService" />
+
+		<receiver
+			android:name=".service.NotificationService$NotificationDismissReceiver"
+			android:exported="false" />
 
 	</application>
 

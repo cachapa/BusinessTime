@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 
@@ -11,14 +12,15 @@ import com.codingbuffalo.businesstime.R;
 import com.codingbuffalo.businesstime.activity.MainActivity;
 import com.codingbuffalo.businesstime.manager.TimeManager;
 import com.codingbuffalo.businesstime.model.WorkDay;
+import com.codingbuffalo.businesstime.service.NotificationService;
 
 public class NotificationHelper {
 	private static final int NOTIFICATION_ID = 0;
 
-	private static NotificationManager mNotificationManager;
-	private static int mNotificationColor = -1;
+	private static NotificationManager        mNotificationManager;
+	private static Bitmap                     mWearBitmapAtWork;
+	private static Bitmap                     mWearBitmapLeftWork;
 	private static NotificationCompat.Builder mBuilder;
-
 
 	public static void showAtWork(Context context) {
 		init(context);
@@ -28,7 +30,7 @@ public class NotificationHelper {
 				.setContentText("Work time: " + getWorkTime(context))
 				.setSmallIcon(R.drawable.ic_notification_at_work)
 				.setAutoCancel(false)
-				.setOngoing(true);
+				.extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapAtWork));
 
 		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 	}
@@ -41,7 +43,7 @@ public class NotificationHelper {
 				.setContentText("Work time: " + getWorkTime(context))
 				.setSmallIcon(R.drawable.ic_notification_left_work)
 				.setAutoCancel(true)
-				.setOngoing(false);
+				.extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapLeftWork));
 
 		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 	}
@@ -56,16 +58,22 @@ public class NotificationHelper {
 		if (mNotificationManager == null) {
 			mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-			mNotificationColor = context.getResources().getColor(R.color.primary);
+			int notificationColor = context.getResources().getColor(R.color.primary);
 
-			Intent resultIntent = new Intent(context, MainActivity.class);
-			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, resultIntent, 0);
+			Intent clickIntent = new Intent(context, MainActivity.class);
+			PendingIntent clickPendingIntent = PendingIntent.getActivity(context, 0, clickIntent, 0);
+
+			Intent dismissIntent = new Intent(context, NotificationService.NotificationDismissReceiver.class);
+			PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, dismissIntent, 0);
+
 			mBuilder = new NotificationCompat.Builder(context)
-					.setColor(mNotificationColor)
-					.setContentIntent(pendingIntent)
-					.setPriority(NotificationCompat.PRIORITY_LOW)
-					.extend(new NotificationCompat.WearableExtender()
-							.setBackground(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background)));
+					.setColor(notificationColor)
+					.setContentIntent(clickPendingIntent)
+					.setDeleteIntent(dismissPendingIntent)
+					.setPriority(NotificationCompat.PRIORITY_LOW);
+
+			mWearBitmapAtWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_at_work);
+			mWearBitmapLeftWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_left_work);
 		}
 	}
 

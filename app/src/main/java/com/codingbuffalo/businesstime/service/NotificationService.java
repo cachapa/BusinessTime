@@ -1,6 +1,7 @@
 package com.codingbuffalo.businesstime.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -41,7 +42,7 @@ public class NotificationService extends Service {
 		}
 	}
 
-	private static void stopService() {
+	public static void stopService() {
 		if (mInstance != null) {
 			mInstance.stop();
 		}
@@ -57,7 +58,7 @@ public class NotificationService extends Service {
 		return START_STICKY;
 	}
 
-	public void stop() {
+	private void stop() {
 		// Stop notification updates
 		mTickHandler.removeCallbacks(mTicker);
 
@@ -83,4 +84,11 @@ public class NotificationService extends Service {
 			updateNotification();
 		}
 	};
+
+	public static class NotificationDismissReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			stopService();
+		}
+	}
 }
