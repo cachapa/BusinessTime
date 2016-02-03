@@ -99,6 +99,17 @@ public class TimeManager {
 
 		notifyNewEvent();
 	}
+	
+	public void removeEvent(long timestamp) {
+		mTimeDatabase.delete(timestamp);
+		
+		TimeEvent event = mTimeDatabase.getEventBefore(timestamp);
+		mCacheAtWork = event != null && event.isAtWork();
+		
+		updateCache();
+		
+		notifyNewEvent();
+	}
 
 	public void deleteDatabase() {
 		mTimeDatabase.deleteAllValues();

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.codingbuffalo.businesstime.R;
+import com.codingbuffalo.businesstime.manager.TimeManager;
 import com.codingbuffalo.businesstime.model.TimeEvent;
 
 import java.text.DateFormat;
@@ -21,7 +23,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+		View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
 		return new ViewHolder(view);
 	}
 
@@ -29,11 +31,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 	public void onBindViewHolder(ViewHolder holder, int position) {
 		TimeEvent event = getItem(position);
 
-		String date = DateFormat.getTimeInstance().format(event.getTimestamp());
-		String state = event.isAtWork() ? "Enter" : "Leave";
-
-		holder.mDateView.setText(date);
-		holder.mStateView.setText(state);
+        holder.setEvent(event);
 	}
 
 	@Override
@@ -51,14 +49,30 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 		notifyDataSetChanged();
 	}
 
-	public static class ViewHolder extends RecyclerView.ViewHolder {
-		public TextView mDateView;
-		public TextView mStateView;
+	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+		private TextView  mDateView;
+		private TextView  mStateView;
+        private TimeEvent mEvent;
 
 		public ViewHolder(View v) {
 			super(v);
-			mDateView = (TextView) v.findViewById(android.R.id.text1);
-			mStateView = (TextView) v.findViewById(android.R.id.text2);
+			mDateView = (TextView) v.findViewById(R.id.date);
+			mStateView = (TextView) v.findViewById(R.id.state);
+			v.findViewById(R.id.delete).setOnClickListener(this);
 		}
-	}
+		
+		public void setEvent(TimeEvent event) {
+			String date = DateFormat.getTimeInstance().format(event.getTimestamp());
+			String state = event.isAtWork() ? "Enter" : "Leave";
+			
+			mDateView.setText(date);
+			mStateView.setText(state);
+			mEvent = event;
+		}
+		
+		@Override
+        public void onClick(View view) {
+            TimeManager.getInstance(view.getContext()).removeEvent(mEvent.getTimestamp());
+        }
+    }
 }

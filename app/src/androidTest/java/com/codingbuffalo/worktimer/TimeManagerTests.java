@@ -42,6 +42,11 @@ public class TimeManagerTests extends AndroidTestCase {
 		mTimeManager.insertEvent(time, true);
 		time = getTime(2015, 0, 28, 17, 0, 0);
 		mTimeManager.insertEvent(time, false);
+		
+		// Insert and remove event
+		time = getTime(2015, 0, 28, 11, 0, 0);
+		mTimeManager.insertEvent(time, true);
+		mTimeManager.removeEvent(time);
 
 		// Work past midnight
 		time = getTime(2015, 0, 29, 17, 0, 0);
