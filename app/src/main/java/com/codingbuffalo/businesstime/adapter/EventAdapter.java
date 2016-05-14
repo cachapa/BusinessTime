@@ -19,6 +19,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public EventAdapter() {
         mEvents = new ArrayList<>();
+        setHasStableIds(true);
     }
 
     @Override
@@ -47,6 +48,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         mEvents.clear();
         mEvents.addAll(events);
         notifyDataSetChanged();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mEvents.get(position).getTimestamp();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
