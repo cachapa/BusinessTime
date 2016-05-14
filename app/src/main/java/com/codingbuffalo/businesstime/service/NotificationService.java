@@ -35,7 +35,7 @@ public class NotificationService extends Service {
 
         TimeManager timeManager = TimeManager.getInstance(context);
 
-        if (timeManager.isAtWork()) {
+        if (timeManager.isAtWork(System.currentTimeMillis())) {
             // Start service to handle ongoing notification
             Intent intent = new Intent(context, NotificationService.class);
             context.startService(intent);

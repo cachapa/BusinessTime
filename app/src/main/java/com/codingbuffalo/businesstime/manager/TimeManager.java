@@ -17,10 +17,6 @@ public class TimeManager {
     private TimeDatabase mTimeDatabase;
     private Calendar mCalendar;
     private List<OnTimeListener> mTimeListeners;
-    private boolean mCacheAtWork;
-    private long mCacheToday;
-    private long mCacheBalance;
-    private long mCacheUpdate;
     private TimeManager(Context context) {
         mTimeDatabase = new TimeDatabase(context);
 
@@ -29,9 +25,6 @@ public class TimeManager {
         mTimeListeners = new LinkedList<>();
 
         TimeEvent lastEvent = mTimeDatabase.getLastEvent();
-        mCacheAtWork = lastEvent != null && lastEvent.isAtWork();
-
-        updateCache();
     }
 
     public static TimeManager getInstance(Context context) {
@@ -39,23 +32,6 @@ public class TimeManager {
             instance = new TimeManager(context);
         }
         return instance;
-    }
-
-    private void updateCache() {
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
-        mCalendar.set(Calendar.HOUR_OF_DAY, 0);
-        mCalendar.set(Calendar.MINUTE, 0);
-        mCalendar.set(Calendar.SECOND, 0);
-        mCalendar.set(Calendar.MILLISECOND, 0);
-        long from = mCalendar.getTimeInMillis();
-        long to = System.currentTimeMillis();
-
-        mCacheToday = getWorkTime(from, to);
-
-        long dailyWorkTime = 8 * DateUtils.HOUR_IN_MILLIS;
-        mCacheBalance = getTotalWorkTime() - dailyWorkTime * mTimeDatabase.getWorkdayCount();
-
-        mCacheUpdate = System.currentTimeMillis();
     }
 
     public List<TimeEvent> getEvents() {
@@ -77,52 +53,38 @@ public class TimeManager {
     }
 
     public void startWork() {
-        if (!mCacheAtWork) {
-            insertEvent(System.currentTimeMillis(), true);
-        }
+        insertEvent(System.currentTimeMillis(), true);
     }
 
     public void stopWork() {
-        if (mCacheAtWork) {
-            insertEvent(System.currentTimeMillis(), false);
-        }
+        insertEvent(System.currentTimeMillis(), false);
     }
 
     public void insertEvent(long timestamp, boolean atWork) {
+        if (isAtWork(timestamp) == atWork) {
+            return;
+        }
+
         mTimeDatabase.insertEvent(timestamp, atWork);
-        mCacheAtWork = atWork;
-
-        updateCache();
-
         notifyNewEvent();
     }
 
     public void removeEvent(long timestamp) {
         mTimeDatabase.delete(timestamp);
-
-        TimeEvent event = mTimeDatabase.getEventBefore(timestamp);
-        mCacheAtWork = event != null && event.isAtWork();
-
-        updateCache();
-
         notifyNewEvent();
     }
 
     public void deleteDatabase() {
         mTimeDatabase.deleteAllValues();
-
-        mCacheAtWork = false;
-        mCacheUpdate = 0l;
-        mCacheToday = 0l;
-        mCacheBalance = 0;
     }
 
-    public boolean isAtWork() {
-        return mCacheAtWork;
+    public boolean isAtWork(long timestamp) {
+        TimeEvent event = mTimeDatabase.getEventBefore(timestamp);
+        return event != null && event.isAtWork();
     }
 
     public long getWorkTimeToday() {
-        return mCacheToday + (mCacheAtWork ? (System.currentTimeMillis() - mCacheUpdate) : 0);
+        return getWorkTimeAtDay(System.currentTimeMillis());
     }
 
     public long getTotalWorkTime() {
@@ -146,7 +108,7 @@ public class TimeManager {
     public long getWorkTime(long from, long to) {
         List<TimeEvent> events = mTimeDatabase.getEvents(from, to);
 
-        long connectedTime = 0l;
+        long connectedTime = 0L;
         TimeEvent previousEvent;
         TimeEvent lastEvent = mTimeDatabase.getEventBefore(from);
         if (lastEvent != null) {
@@ -186,11 +148,11 @@ public class TimeManager {
 
         List<TimeEvent> events = mTimeDatabase.getEvents(from, to);
         if (events.isEmpty()) {
-            return new WorkDay(date, 0l, 0l, date, date);
+            return new WorkDay(date, 0L, 0L, date, date);
         }
 
-        long workTime = 0l;
-        long pauseTime = 0l;
+        long workTime = 0L;
+        long pauseTime = 0L;
 
         TimeEvent previousEvent;
         TimeEvent lastEvent = mTimeDatabase.getEventBefore(from);
@@ -230,7 +192,8 @@ public class TimeManager {
     }
 
     public long getTimeBalance() {
-        return mCacheBalance + (mCacheAtWork ? (System.currentTimeMillis() - mCacheUpdate) : 0);
+        long dailyWorkTime = 8 * DateUtils.HOUR_IN_MILLIS;
+        return getTotalWorkTime() - dailyWorkTime * mTimeDatabase.getWorkdayCount();
     }
 
     public List<Long> getWorkDays() {
@@ -253,6 +216,6 @@ public class TimeManager {
     }
 
     public interface OnTimeListener {
-        public void onTimeModified();
+        void onTimeModified();
     }
 }

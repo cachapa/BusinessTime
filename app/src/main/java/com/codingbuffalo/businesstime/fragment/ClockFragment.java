@@ -76,12 +76,14 @@ public class ClockFragment extends Fragment implements TimeManager.OnTimeListene
             balanceTime = DateUtils.formatElapsedTime(mRecycleStringBuilder, balanceSeconds);
         }
 
+        boolean atWork = tm.isAtWork(System.currentTimeMillis());
+
         mTimeCounterView.setText(elapsedTime);
-        mWorkStatusView.setText(tm.isAtWork() ? "At work" : "Left work");
+        mWorkStatusView.setText(atWork ? "At work" : "Left work");
         mBalanceView.setText(balanceTime);
 
         // Schedule an update after 1 second
-        if (tm.isAtWork()) {
+        if (atWork) {
             mTickHandler.postDelayed(mTicker, 1000);
         }
     }
