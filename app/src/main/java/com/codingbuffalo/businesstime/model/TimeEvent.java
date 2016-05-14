@@ -1,19 +1,19 @@
 package com.codingbuffalo.businesstime.model;
 
 public class TimeEvent {
-	private long    mTimestamp;
-	private boolean mAtWork;
+    private long mTimestamp;
+    private boolean mAtWork;
 
-	public TimeEvent(long timestamp, boolean atWork) {
-		this.mTimestamp = timestamp;
-		this.mAtWork = atWork;
-	}
+    public TimeEvent(long timestamp, boolean atWork) {
+        this.mTimestamp = timestamp;
+        this.mAtWork = atWork;
+    }
 
-	public long getTimestamp() {
-		return mTimestamp;
-	}
+    public long getTimestamp() {
+        return mTimestamp;
+    }
 
-	public boolean isAtWork() {
-		return mAtWork;
-	}
+    public boolean isAtWork() {
+        return mAtWork;
+    }
 }

@@ -20,74 +20,74 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class EventListDialogFragment extends DialogFragment implements TimeManager.OnTimeListener {
-	private static final String ARG_DATE = "date";
+    private static final String ARG_DATE = "date";
 
-	private long         mDate;
-	private EventAdapter mAdapter;
-	private Toolbar      mToolbar;
+    private long mDate;
+    private EventAdapter mAdapter;
+    private Toolbar mToolbar;
 
-	public static EventListDialogFragment create(long date) {
-		Bundle args = new Bundle();
-		args.putLong(ARG_DATE, date);
+    /**
+     * @deprecated Use {@link #create(long)} instead
+     */
+    @Deprecated
+    public EventListDialogFragment() {
+        super();
+    }
 
-		@SuppressWarnings("deprecation")
-		EventListDialogFragment fragment = new EventListDialogFragment();
-		fragment.setArguments(args);
+    public static EventListDialogFragment create(long date) {
+        Bundle args = new Bundle();
+        args.putLong(ARG_DATE, date);
 
-		return fragment;
-	}
+        @SuppressWarnings("deprecation")
+        EventListDialogFragment fragment = new EventListDialogFragment();
+        fragment.setArguments(args);
 
-	/**
-	 * @deprecated Use {@link #create(long)} instead
-	 */
-	@Deprecated
-	public EventListDialogFragment() {
-		super();
-	}
+        return fragment;
+    }
 
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_event_list, null);
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_event_list, null);
 
-		mDate = getArguments().getLong(ARG_DATE);
-		mAdapter = new EventAdapter();
+        mDate = getArguments().getLong(ARG_DATE);
+        mAdapter = new EventAdapter();
 
-		mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-		mToolbar.setTitle(DateFormat.getDateInstance(DateFormat.FULL).format(mDate));
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbar.setTitle(DateFormat.getDateInstance(DateFormat.FULL).format(mDate));
 
-		RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-		recyclerView.setHasFixedSize(true);
-		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-		recyclerView.setAdapter(mAdapter);
-		recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
-		return new AlertDialog.Builder(getActivity())
-				.setView(view)
-				.setPositiveButton("Close", null)
-				.create();
-	}
+        return new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .setPositiveButton("Close", null)
+                .create();
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		TimeManager.getInstance(getActivity()).addOnTimeListener(this);
-		updateEvents();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        TimeManager.getInstance(getActivity()).addOnTimeListener(this);
+        updateEvents();
+    }
 
-	@Override
-	public void onPause() {
-		TimeManager.getInstance(getActivity()).removeOnTimeListener(this);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        TimeManager.getInstance(getActivity()).removeOnTimeListener(this);
+        super.onPause();
+    }
 
-	@Override
-	public void onTimeModified() {
-		updateEvents();
-	}
+    @Override
+    public void onTimeModified() {
+        updateEvents();
+    }
 
-	private void updateEvents() {
-		List<TimeEvent> events = TimeManager.getInstance(getActivity()).getEventsForDay(mDate);
-		mToolbar.setSubtitle(events.size() + (events.size() == 1 ? " event" : " events"));
-		mAdapter.setEvents(events);
-	}
+    private void updateEvents() {
+        List<TimeEvent> events = TimeManager.getInstance(getActivity()).getEventsForDay(mDate);
+        mToolbar.setSubtitle(events.size() + (events.size() == 1 ? " event" : " events"));
+        mAdapter.setEvents(events);
+    }
 }

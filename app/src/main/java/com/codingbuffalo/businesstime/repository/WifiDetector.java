@@ -14,38 +14,36 @@ import android.util.Log;
 import com.codingbuffalo.businesstime.manager.TimeManager;
 
 public class WifiDetector extends BroadcastReceiver {
-	private static final String PREFS_SSID = "monitor_ssid";
+    private static final String PREFS_SSID = "monitor_ssid";
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
-		final String action = intent.getAction();
-		if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-			NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        final String action = intent.getAction();
+        if (action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+            NetworkInfo networkInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 
-			if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-				String ssid = null;
+            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                String ssid = null;
 
-				if (networkInfo.isConnected()) {
-					WifiInfo wifiInfo = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
+                if (networkInfo.isConnected()) {
+                    WifiInfo wifiInfo = intent.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
 
-					ssid = wifiInfo.getSSID();
-					ssid = ssid.substring(1, ssid.length()-1);
+                    ssid = wifiInfo.getSSID();
+                    ssid = ssid.substring(1, ssid.length() - 1);
 
-					SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-					String prefSsid = prefs.getString(PREFS_SSID, null);
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+                    String prefSsid = prefs.getString(PREFS_SSID, null);
 
-					if (!ssid.equals(prefSsid)) {
-						return;
-					}
+                    if (!ssid.equals(prefSsid)) {
+                        return;
+                    }
 
-					TimeManager.getInstance(context).startWork();
-					Log.d("Wifi", ssid + " connected");
-				}
-
-				else {
-					TimeManager.getInstance(context).stopWork();
-				}
-			}
-		}
-	}
+                    TimeManager.getInstance(context).startWork();
+                    Log.d("Wifi", ssid + " connected");
+                } else {
+                    TimeManager.getInstance(context).stopWork();
+                }
+            }
+        }
+    }
 }

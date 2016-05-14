@@ -14,76 +14,75 @@ import com.codingbuffalo.businesstime.R;
 import com.codingbuffalo.businesstime.manager.TimeManager;
 
 public class ClockFragment extends Fragment implements TimeManager.OnTimeListener {
-	private Handler       mTickHandler;
-	private StringBuilder mRecycleStringBuilder;
+    private Handler mTickHandler;
+    private StringBuilder mRecycleStringBuilder;
 
-	private TextView mTimeCounterView;
-	private TextView mWorkStatusView;
-	private TextView mBalanceView;
+    private TextView mTimeCounterView;
+    private TextView mWorkStatusView;
+    private TextView mBalanceView;
+    private Runnable mTicker = new Runnable() {
+        @Override
+        public void run() {
+            updateViews();
+        }
+    };
 
-	public ClockFragment() {
-		mTickHandler = new Handler();
-	}
+    public ClockFragment() {
+        mTickHandler = new Handler();
+    }
 
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_clock, container, false);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_clock, container, false);
 
-		mTimeCounterView = (TextView) view.findViewById(R.id.time_counter);
-		mWorkStatusView = (TextView) view.findViewById(R.id.connection_status);
-		mBalanceView = (TextView) view.findViewById(R.id.balance);
+        mTimeCounterView = (TextView) view.findViewById(R.id.time_counter);
+        mWorkStatusView = (TextView) view.findViewById(R.id.connection_status);
+        mBalanceView = (TextView) view.findViewById(R.id.balance);
 
-		return view;
-	}
+        return view;
+    }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		TimeManager.getInstance(getActivity()).addOnTimeListener(this);
-		updateViews();
-	}
+    @Override
+    public void onResume() {
+        super.onResume();
+        TimeManager.getInstance(getActivity()).addOnTimeListener(this);
+        updateViews();
+    }
 
-	@Override
-	public void onPause() {
-		mTickHandler.removeCallbacks(mTicker);
-		TimeManager.getInstance(getActivity()).removeOnTimeListener(this);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        mTickHandler.removeCallbacks(mTicker);
+        TimeManager.getInstance(getActivity()).removeOnTimeListener(this);
+        super.onPause();
+    }
 
-	@Override
-	public void onTimeModified() {
-		updateViews();
-	}
+    @Override
+    public void onTimeModified() {
+        updateViews();
+    }
 
-	private void updateViews() {
-		TimeManager tm = TimeManager.getInstance(getActivity());
+    private void updateViews() {
+        TimeManager tm = TimeManager.getInstance(getActivity());
 
-		long elapsedSeconds = tm.getWorkTimeToday() / 1000;
-		String elapsedTime = DateUtils.formatElapsedTime(mRecycleStringBuilder, elapsedSeconds);
+        long elapsedSeconds = tm.getWorkTimeToday() / 1000;
+        String elapsedTime = DateUtils.formatElapsedTime(mRecycleStringBuilder, elapsedSeconds);
 
-		long balanceSeconds = tm.getTimeBalance() / 1000;
-		String balanceTime;
-		if (balanceSeconds < 0) {
-			balanceTime = "-" + DateUtils.formatElapsedTime(mRecycleStringBuilder, -balanceSeconds);
-		} else {
-			balanceTime = DateUtils.formatElapsedTime(mRecycleStringBuilder, balanceSeconds);
-		}
+        long balanceSeconds = tm.getTimeBalance() / 1000;
+        String balanceTime;
+        if (balanceSeconds < 0) {
+            balanceTime = "-" + DateUtils.formatElapsedTime(mRecycleStringBuilder, -balanceSeconds);
+        } else {
+            balanceTime = DateUtils.formatElapsedTime(mRecycleStringBuilder, balanceSeconds);
+        }
 
-		mTimeCounterView.setText(elapsedTime);
-		mWorkStatusView.setText(tm.isAtWork() ? "At work" : "Left work");
-		mBalanceView.setText(balanceTime);
+        mTimeCounterView.setText(elapsedTime);
+        mWorkStatusView.setText(tm.isAtWork() ? "At work" : "Left work");
+        mBalanceView.setText(balanceTime);
 
-		// Schedule an update after 1 second
-		if (tm.isAtWork()) {
-			mTickHandler.postDelayed(mTicker, 1000);
-		}
-	}
-
-	private Runnable mTicker = new Runnable() {
-		@Override
-		public void run() {
-			updateViews();
-		}
-	};
+        // Schedule an update after 1 second
+        if (tm.isAtWork()) {
+            mTickHandler.postDelayed(mTicker, 1000);
+        }
+    }
 }

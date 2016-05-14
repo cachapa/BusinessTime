@@ -15,70 +15,70 @@ import com.codingbuffalo.businesstime.model.WorkDay;
 import com.codingbuffalo.businesstime.service.NotificationService;
 
 public class NotificationHelper {
-	private static final int NOTIFICATION_ID = 0;
+    private static final int NOTIFICATION_ID = 0;
 
-	private static NotificationManager        mNotificationManager;
-	private static Bitmap                     mWearBitmapAtWork;
-	private static Bitmap                     mWearBitmapLeftWork;
-	private static NotificationCompat.Builder mBuilder;
+    private static NotificationManager mNotificationManager;
+    private static Bitmap mWearBitmapAtWork;
+    private static Bitmap mWearBitmapLeftWork;
+    private static NotificationCompat.Builder mBuilder;
 
-	public static void showAtWork(Context context) {
-		init(context);
+    public static void showAtWork(Context context) {
+        init(context);
 
-		mBuilder.setTicker("At work")
-				.setContentTitle("At work")
-				.setContentText("Work time: " + getWorkTime(context))
-				.setSmallIcon(R.drawable.ic_notification_at_work)
-				.setAutoCancel(false)
-				.extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapAtWork));
+        mBuilder.setTicker("At work")
+                .setContentTitle("At work")
+                .setContentText("Work time: " + getWorkTime(context))
+                .setSmallIcon(R.drawable.ic_notification_at_work)
+                .setAutoCancel(false)
+                .extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapAtWork));
 
-		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-	}
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
 
-	public static void showLeftWork(Context context) {
-		init(context);
+    public static void showLeftWork(Context context) {
+        init(context);
 
-		mBuilder.setTicker("Left work")
-				.setContentTitle("Left work")
-				.setContentText("Work time: " + getWorkTime(context))
-				.setSmallIcon(R.drawable.ic_notification_left_work)
-				.setAutoCancel(true)
-				.extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapLeftWork));
+        mBuilder.setTicker("Left work")
+                .setContentTitle("Left work")
+                .setContentText("Work time: " + getWorkTime(context))
+                .setSmallIcon(R.drawable.ic_notification_left_work)
+                .setAutoCancel(true)
+                .extend(new NotificationCompat.WearableExtender().setBackground(mWearBitmapLeftWork));
 
-		mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-	}
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
 
-	public static void clearNotifications(Context context) {
-		init(context);
+    public static void clearNotifications(Context context) {
+        init(context);
 
-		mNotificationManager.cancelAll();
-	}
+        mNotificationManager.cancelAll();
+    }
 
-	private static void init(Context context) {
-		if (mNotificationManager == null) {
-			mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    private static void init(Context context) {
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-			int notificationColor = context.getResources().getColor(R.color.primary);
+            int notificationColor = context.getResources().getColor(R.color.primary);
 
-			Intent clickIntent = new Intent(context, MainActivity.class);
-			PendingIntent clickPendingIntent = PendingIntent.getActivity(context, 0, clickIntent, 0);
+            Intent clickIntent = new Intent(context, MainActivity.class);
+            PendingIntent clickPendingIntent = PendingIntent.getActivity(context, 0, clickIntent, 0);
 
-			Intent dismissIntent = new Intent(context, NotificationService.NotificationDismissReceiver.class);
-			PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, dismissIntent, 0);
+            Intent dismissIntent = new Intent(context, NotificationService.NotificationDismissReceiver.class);
+            PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, dismissIntent, 0);
 
-			mBuilder = new NotificationCompat.Builder(context)
-					.setColor(notificationColor)
-					.setContentIntent(clickPendingIntent)
-					.setDeleteIntent(dismissPendingIntent)
-					.setPriority(NotificationCompat.PRIORITY_LOW);
+            mBuilder = new NotificationCompat.Builder(context)
+                    .setColor(notificationColor)
+                    .setContentIntent(clickPendingIntent)
+                    .setDeleteIntent(dismissPendingIntent)
+                    .setPriority(NotificationCompat.PRIORITY_LOW);
 
-			mWearBitmapAtWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_at_work);
-			mWearBitmapLeftWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_left_work);
-		}
-	}
+            mWearBitmapAtWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_at_work);
+            mWearBitmapLeftWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_left_work);
+        }
+    }
 
-	private static String getWorkTime(Context context) {
-		WorkDay workDay = TimeManager.getInstance(context).getWorkDay(System.currentTimeMillis());
-		return TimeFormatter.formatElapsedTime(workDay.getWorkTime() / 1000);
-	}
+    private static String getWorkTime(Context context) {
+        WorkDay workDay = TimeManager.getInstance(context).getWorkDay(System.currentTimeMillis());
+        return TimeFormatter.formatElapsedTime(workDay.getWorkTime() / 1000);
+    }
 }

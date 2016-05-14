@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<EditTextPreference
-		android:key="monitor_ssid"
-		android:title="SSID" />
+    <EditTextPreference
+        android:key="monitor_ssid"
+        android:title="SSID" />
 
-	<CheckBoxPreference
-		android:key="show_notifications"
-		android:title="Show notifications"
-		android:defaultValue="true" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="show_notifications"
+        android:title="Show notifications" />
 </PreferenceScreen>

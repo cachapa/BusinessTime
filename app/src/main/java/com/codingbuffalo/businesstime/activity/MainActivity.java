@@ -14,54 +14,54 @@ import com.codingbuffalo.businesstime.fragment.DayListFragment;
 
 
 public class MainActivity extends AppCompatActivity {
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new ClockFragment())
-					.commit();
-		}
-	}
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new ClockFragment())
+                    .commit();
+        }
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.action_day_list:
-				showDayList();
-				return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_day_list:
+                showDayList();
+                return true;
 
-			case R.id.action_settings:
-				startActivity(new Intent(this, SettingsActivity.class));
-				return true;
-		}
-		return false;
-	}
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+        }
+        return false;
+    }
 
-	@Override
-	public void onBackPressed() {
-		if (getFragmentManager().getBackStackEntryCount() > 0) {
-			getFragmentManager().popBackStack();
-		} else {
-			super.onBackPressed();
-		}
-	}
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 
-	private void showDayList() {
-		Fragment fragment = new DayListFragment();
+    private void showDayList() {
+        Fragment fragment = new DayListFragment();
 
-		getFragmentManager().beginTransaction()
-				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.addToBackStack(null)
-				.replace(R.id.container, fragment)
-				.commit();
-	}
+        getFragmentManager().beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(null)
+                .replace(R.id.container, fragment)
+                .commit();
+    }
 }

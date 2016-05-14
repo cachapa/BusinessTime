@@ -13,82 +13,81 @@ import com.codingbuffalo.businesstime.manager.TimeManager;
 import com.codingbuffalo.businesstime.util.NotificationHelper;
 
 public class NotificationService extends Service {
-	private static final String SHOW_NOTIFICATIONS = "show_notifications";
+    private static final String SHOW_NOTIFICATIONS = "show_notifications";
 
-	private static NotificationService mInstance;
+    private static NotificationService mInstance;
 
-	private Handler mTickHandler;
+    private Handler mTickHandler;
+    private Runnable mTicker = new Runnable() {
+        @Override
+        public void run() {
+            updateNotification();
+        }
+    };
 
-	public static void handleNotification(Context context) {
-		// Check if the user allows notifications
-		if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SHOW_NOTIFICATIONS, true)) {
-			stopService();
-			NotificationHelper.clearNotifications(context);
-			return;
-		}
+    public static void handleNotification(Context context) {
+        // Check if the user allows notifications
+        if (!PreferenceManager.getDefaultSharedPreferences(context).getBoolean(SHOW_NOTIFICATIONS, true)) {
+            stopService();
+            NotificationHelper.clearNotifications(context);
+            return;
+        }
 
-		TimeManager timeManager = TimeManager.getInstance(context);
+        TimeManager timeManager = TimeManager.getInstance(context);
 
-		if (timeManager.isAtWork()) {
-			// Start service to handle ongoing notification
-			Intent intent = new Intent(context, NotificationService.class);
-			context.startService(intent);
-		} else {
-			// Stop service
-			stopService();
+        if (timeManager.isAtWork()) {
+            // Start service to handle ongoing notification
+            Intent intent = new Intent(context, NotificationService.class);
+            context.startService(intent);
+        } else {
+            // Stop service
+            stopService();
 
-			// Show "left work" notification
-			NotificationHelper.showLeftWork(context);
-		}
-	}
+            // Show "left work" notification
+            NotificationHelper.showLeftWork(context);
+        }
+    }
 
-	public static void stopService() {
-		if (mInstance != null) {
-			mInstance.stop();
-		}
-	}
+    public static void stopService() {
+        if (mInstance != null) {
+            mInstance.stop();
+        }
+    }
 
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		mInstance = this;
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        mInstance = this;
 
-		mTickHandler = new Handler();
-		updateNotification();
+        mTickHandler = new Handler();
+        updateNotification();
 
-		return START_STICKY;
-	}
+        return START_STICKY;
+    }
 
-	private void stop() {
-		// Stop notification updates
-		mTickHandler.removeCallbacks(mTicker);
+    private void stop() {
+        // Stop notification updates
+        mTickHandler.removeCallbacks(mTicker);
 
-		stopSelf();
-	}
+        stopSelf();
+    }
 
-	@Override
-	public IBinder onBind(Intent intent) {
-		// Not used
-		return null;
-	}
+    @Override
+    public IBinder onBind(Intent intent) {
+        // Not used
+        return null;
+    }
 
-	private void updateNotification() {
-		NotificationHelper.showAtWork(this);
+    private void updateNotification() {
+        NotificationHelper.showAtWork(this);
 
-		// Schedule another update in one minute
-		mTickHandler.postDelayed(mTicker, DateUtils.MINUTE_IN_MILLIS);
-	}
+        // Schedule another update in one minute
+        mTickHandler.postDelayed(mTicker, DateUtils.MINUTE_IN_MILLIS);
+    }
 
-	private Runnable mTicker = new Runnable() {
-		@Override
-		public void run() {
-			updateNotification();
-		}
-	};
-
-	public static class NotificationDismissReceiver extends BroadcastReceiver {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			stopService();
-		}
-	}
+    public static class NotificationDismissReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            stopService();
+        }
+    }
 }

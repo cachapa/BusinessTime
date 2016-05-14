@@ -7,16 +7,16 @@ import com.codingbuffalo.businesstime.R;
 import com.codingbuffalo.businesstime.fragment.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
 
-		if (savedInstanceState == null) {
-			getFragmentManager()
-					.beginTransaction()
-					.add(R.id.container, new SettingsFragment())
-					.commit();
-		}
-	}
+        if (savedInstanceState == null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container, new SettingsFragment())
+                    .commit();
+        }
+    }
 }
