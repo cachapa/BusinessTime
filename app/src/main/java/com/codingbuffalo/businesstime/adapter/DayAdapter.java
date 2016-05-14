@@ -15,6 +15,7 @@ import com.codingbuffalo.businesstime.model.WorkDay;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
@@ -70,6 +71,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     public void setWorkDays(List<Long> workDays) {
         mWorkDays.clear();
         mWorkDays.addAll(workDays);
+        Collections.reverse(mWorkDays);
         notifyDataSetChanged();
     }
 
