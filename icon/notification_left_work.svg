@@ -14,7 +14,7 @@
    height="500"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="notification_left_work.svg"
    inkscape:export-filename="/home/cachapa/Desktop/ic_notification_left_work.png"
    inkscape:export-xdpi="12.96"
@@ -86,19 +86,19 @@
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#c8c8c8"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="151.69569"
-     inkscape:cy="260.14714"
+     inkscape:cx="199.55283"
+     inkscape:cy="258.71857"
      inkscape:document-units="px"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1134"
+     inkscape:window-height="1016"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -136,17 +136,21 @@
      transform="translate(0,-552.36218)"
      style="display:inline">
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter3865)"
-       d="m 206.625,32.96875 c -23.63517,0 -42.78125,19.146088 -42.78125,42.78125 l 0,42.78125 -84.96875,0 c -23.635165,0 -42.5625,19.14608 -42.5625,42.78125 l -0.21875,235.28125 c 0,23.63516 19.146085,42.78125 42.78125,42.78125 l 342.25,0 c 23.63517,0 42.78125,-19.14609 42.78125,-42.78125 l 0,-235.28125 c 0,-23.63517 -19.14608,-42.78125 -42.78125,-42.78125 l -86.15625,0 0,-42.78125 c 0,-23.635162 -19.14608,-42.78125 -42.78125,-42.78125 z m 0,42.78125 85.5625,0 0,42.78125 -85.5625,0 z M 250,166.25 c 62.25715,0 112.6875,50.43035 112.6875,112.6875 0,62.25715 -50.43035,112.6875 -112.6875,112.6875 -62.25714,0 -112.6875,-50.43035 -112.6875,-112.6875 C 137.3125,216.68035 187.74286,166.25 250,166.25 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter3865);color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill-rule:nonzero;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter-blend-mode:normal;filter-gaussianBlur-deviation:0;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="M 206.625 32.96875 C 182.98983 32.96875 163.84375 52.114838 163.84375 75.75 L 163.84375 118.53125 L 78.875 118.53125 C 55.239835 118.53125 36.3125 137.67733 36.3125 161.3125 L 36.09375 396.59375 C 36.09375 420.22891 55.239835 439.375 78.875 439.375 L 421.125 439.375 C 444.76017 439.375 463.90625 420.22891 463.90625 396.59375 L 463.90625 161.3125 C 463.90625 137.67733 444.76017 118.53125 421.125 118.53125 L 334.96875 118.53125 L 334.96875 75.75 C 334.96875 52.114838 315.82267 32.96875 292.1875 32.96875 L 206.625 32.96875 z M 206.625 75.75 L 292.1875 75.75 L 292.1875 118.53125 L 206.625 118.53125 L 206.625 75.75 z M 362.55273 143.36523 L 416.96289 197.77539 C 397.99601 216.74211 379.02938 235.70907 360.0625 254.67578 C 361.77607 262.49069 362.6875 270.60654 362.6875 278.9375 C 362.6875 341.19465 312.25715 391.625 250 391.625 C 241.66838 391.625 233.55181 390.71383 225.73633 389 C 216.96025 397.776 208.18428 406.55212 199.4082 415.32812 L 83.037109 298.95703 L 137.44727 244.54688 L 141.45703 248.55664 C 154.71153 201.06819 198.2708 166.25 250 166.25 C 275.25479 166.25 298.56202 174.55011 317.34766 188.57031 C 331.94475 173.97339 346.54158 159.37622 361.13867 144.7793 L 361.8457 144.07227 L 362.55273 143.36523 z "
        transform="translate(0,552.36218)"
-       id="path3027"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="sscsccssssscssscccccsssss" />
+       id="path3027" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Checkmark"
+     style="display:inline">
     <path
        id="path3001"
-       d="m 221.55383,862.88196 -34.8394,-34.83939 -14.69198,14.69199 49.53138,49.53138 106.42372,-106.42372 -14.69199,-14.692 z"
+       d="m 199.40916,334.78791 -61.96104,-61.96103 -26.12934,26.12935 88.09038,88.09039 189.27206,-189.27206 -26.12935,-26.12938 z"
        inkscape:connector-curvature="0"
-       style="fill:#ffffff"
+       style="display:inline;fill:#ffffff"
        sodipodi:nodetypes="ccccccc" />
   </g>
 </svg>
