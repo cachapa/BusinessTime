@@ -1,7 +1,7 @@
 # BusinessTime
 
 [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14)
-[![Build Status](https://travis-ci.org/cachapa/BusinessTime.svg?branch=master)](https://travis-ci.org/cachapa/BusinessTime) 
+[![Build Status](https://travis-ci.org/cachapa/BusinessTime.svg?branch=master)](https://travis-ci.org/cachapa/BusinessTime)
 [![License](https://img.shields.io/:license-gpl%20v3-brightgreen.svg?style=flat)](https://raw.githubusercontent.com/cachapa/BusinessTime/master/LICENSE)
 
 A small Android app that automatically tracks your time at work.
@@ -16,6 +16,6 @@ Currently the only method to feed events into the database is via WiFi detection
 Other possible methods of detection would be through the use of bluetooth beacons, NFC, geofences, or a combination of the above. It might also make sense to plug into automation apps such as Llama.
 
 ## To do
-- UI for creating new events
-- UI for editing events
+- Create new events
+- Edit existing events
 - More detection types
