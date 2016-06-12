@@ -3,8 +3,8 @@ package net.cachapa.businesstime.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,9 +18,10 @@ import net.cachapa.businesstime.manager.TimeManager;
 import net.cachapa.businesstime.model.TimeEvent;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-public class EventListDialogFragment extends DialogFragment implements TimeManager.OnTimeListener {
+public class EventListDialogFragment extends DialogFragment implements View.OnClickListener, TimeManager.OnTimeListener {
     private static final String ARG_DATE = "date";
 
     private long mDate;
@@ -61,12 +62,22 @@ public class EventListDialogFragment extends DialogFragment implements TimeManag
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(mAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        return new AlertDialog.Builder(getActivity())
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
-                .setPositiveButton("Close", null)
+                .setPositiveButton("Delete", null)
+                .setNegativeButton("Close", null)
                 .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                        .setOnClickListener(EventListDialogFragment.this);
+            }
+        });
+
+        return dialog;
     }
 
     @Override
@@ -80,6 +91,15 @@ public class EventListDialogFragment extends DialogFragment implements TimeManag
     public void onPause() {
         TimeManager.getInstance(getActivity()).removeOnTimeListener(this);
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        TimeManager timeManager = TimeManager.getInstance(getActivity());
+        List<Long> timestamps = new ArrayList<>(mAdapter.getCheckedItems());
+        for (Long timestamp : timestamps) {
+            timeManager.removeEvent(timestamp);
+        }
     }
 
     @Override

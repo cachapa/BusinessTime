@@ -1,7 +1,5 @@
 package net.cachapa.businesstime.activity;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,33 +32,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_day_list:
-                showDayList();
-                return true;
-
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return false;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private void showDayList() {
-        Fragment fragment = new DayListFragment();
-
-        getFragmentManager().beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(null)
-                .replace(R.id.container, fragment)
-                .commit();
     }
 }
