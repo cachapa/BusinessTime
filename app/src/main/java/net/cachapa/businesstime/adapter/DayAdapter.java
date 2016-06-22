@@ -17,6 +17,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     private List<Long> mWorkDays;
@@ -48,10 +49,9 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         String dateStr = DateFormat.getDateInstance(DateFormat.FULL).format(date);
         String workTimeStr = DateUtils.formatElapsedTime(mRecycleStringBuilder, workDay.getWorkTime() / 1000);
         String pauseTimeStr = DateUtils.formatElapsedTime(mRecycleStringBuilder, workDay.getPauseTime() / 1000);
-        String enterTimeStr = DateFormat.getTimeInstance().format(workDay.getEnterTime());
-        String leaveTimeStr = DateFormat.getTimeInstance().format(workDay.getLeaveTime());
+        String enterTimeStr = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(workDay.getEnterTime());
+        String leaveTimeStr = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(workDay.getLeaveTime());
 
-        holder.mPosition = position;
         holder.mDateView.setText(dateStr);
         holder.mWorkTimeView.setText(workTimeStr);
         holder.mPauseTimeView.setText(pauseTimeStr);
@@ -76,7 +76,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public int mPosition;
         public TextView mDateView;
         public TextView mWorkTimeView;
         public TextView mPauseTimeView;
@@ -96,7 +95,8 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
-                        listener.onItemClick(null, v, mPosition, mPosition);
+                        int position = getAdapterPosition();
+                        listener.onItemClick(null, v, position, position);
                     }
                 }
             });

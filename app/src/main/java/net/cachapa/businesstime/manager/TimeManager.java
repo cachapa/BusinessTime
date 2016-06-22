@@ -13,25 +13,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TimeManager {
-    private static TimeManager instance;
     private TimeDatabase mTimeDatabase;
     private Calendar mCalendar;
     private List<OnTimeListener> mTimeListeners;
+
+    private static TimeManager instance;
+    
+    public static TimeManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new TimeManager(context.getApplicationContext());
+        }
+        return instance;
+    }
+
     private TimeManager(Context context) {
         mTimeDatabase = new TimeDatabase(context);
 
         mCalendar = GregorianCalendar.getInstance();
 
         mTimeListeners = new LinkedList<>();
-
-        TimeEvent lastEvent = mTimeDatabase.getLastEvent();
-    }
-
-    public static TimeManager getInstance(Context context) {
-        if (instance == null) {
-            instance = new TimeManager(context);
-        }
-        return instance;
     }
 
     public List<TimeEvent> getEvents() {
