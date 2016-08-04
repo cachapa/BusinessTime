@@ -70,6 +70,7 @@ public class NotificationHelper {
                     .setColor(notificationColor)
                     .setContentIntent(clickPendingIntent)
                     .setDeleteIntent(dismissPendingIntent)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                     .setPriority(NotificationCompat.PRIORITY_LOW);
 
             mWearBitmapAtWork = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_wear_background_at_work);
