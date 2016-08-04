@@ -4,4 +4,9 @@
 
     <string name="action_settings">Settings</string>
     <string name="balance">Balance</string>
+    
+    <plurals        name="events">
+        <item quantity="one">%d event</item>
+        <item quantity="other">%d events</item>
+    </plurals>
 </resources>

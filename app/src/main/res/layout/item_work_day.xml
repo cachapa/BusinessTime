@@ -20,6 +20,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#FFF"
         tools:text="Friday, May 13, 2016" />
+    
+    <TextView
+        android:id="@+id/event_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_alignBaseline="@id/date"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textColor="#AAA"
+        tools:text="4 events" />
 
     <TextView
         android:id="@+id/label_enter_time"

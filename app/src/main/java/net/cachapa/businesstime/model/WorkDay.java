@@ -6,13 +6,15 @@ public class WorkDay {
     private long mPauseTime;
     private long mEnterTime;
     private long mLeaveTime;
+    private int mEventCount;
 
-    public WorkDay(long date, long workTime, long pauseTime, long enterTime, long leaveTime) {
+    public WorkDay(long date, long workTime, long pauseTime, long enterTime, long leaveTime, int eventCount) {
         mDate = date;
         mWorkTime = workTime;
         mPauseTime = pauseTime;
-        this.mEnterTime = enterTime;
-        this.mLeaveTime = leaveTime;
+        mEnterTime = enterTime;
+        mLeaveTime = leaveTime;
+        mEventCount = eventCount;
     }
 
     public long getDate() {
@@ -33,5 +35,9 @@ public class WorkDay {
 
     public long getLeaveTime() {
         return mLeaveTime;
+    }
+
+    public int getEventCount() {
+        return mEventCount;
     }
 }

@@ -148,7 +148,7 @@ public class TimeManager {
 
         List<TimeEvent> events = mTimeDatabase.getEvents(from, to);
         if (events.isEmpty()) {
-            return new WorkDay(date, 0L, 0L, date, date);
+            return new WorkDay(date, 0L, 0L, date, date, 0);
         }
 
         long workTime = 0L;
@@ -188,7 +188,7 @@ public class TimeManager {
             workTime += (to - previousEvent.getTimestamp());
         }
 
-        return new WorkDay(from + 12 * DateUtils.HOUR_IN_MILLIS, workTime, pauseTime, enterTime, leaveTime);
+        return new WorkDay(from + 12 * DateUtils.HOUR_IN_MILLIS, workTime, pauseTime, enterTime, leaveTime, events.size());
     }
 
     public long getTimeBalance() {

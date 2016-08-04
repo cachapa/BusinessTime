@@ -47,12 +47,14 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         WorkDay workDay = mTimeManager.getWorkDay(date);
 
         String dateStr = DateFormat.getDateInstance(DateFormat.FULL).format(date);
+        String eventCountStr = holder.mEventCountView.getResources().getQuantityString(R.plurals.events, workDay.getEventCount(), workDay.getEventCount());
         String workTimeStr = DateUtils.formatElapsedTime(mRecycleStringBuilder, workDay.getWorkTime() / 1000);
         String pauseTimeStr = DateUtils.formatElapsedTime(mRecycleStringBuilder, workDay.getPauseTime() / 1000);
         String enterTimeStr = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(workDay.getEnterTime());
         String leaveTimeStr = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(workDay.getLeaveTime());
 
         holder.mDateView.setText(dateStr);
+        holder.mEventCountView.setText(eventCountStr);
         holder.mWorkTimeView.setText(workTimeStr);
         holder.mPauseTimeView.setText(pauseTimeStr);
         holder.mEnterTimeView.setText(enterTimeStr);
@@ -77,6 +79,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mDateView;
+        public TextView mEventCountView;
         public TextView mWorkTimeView;
         public TextView mPauseTimeView;
         public TextView mEnterTimeView;
@@ -86,6 +89,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.ViewHolder> {
         public ViewHolder(View v, final AdapterView.OnItemClickListener listener) {
             super(v);
             mDateView = (TextView) v.findViewById(R.id.date);
+            mEventCountView = (TextView) v.findViewById(R.id.event_count);
             mWorkTimeView = (TextView) v.findViewById(R.id.work_time);
             mPauseTimeView = (TextView) v.findViewById(R.id.pause_time);
             mEnterTimeView = (TextView) v.findViewById(R.id.enter_time);
