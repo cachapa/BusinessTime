@@ -6,13 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.v4.app.NotificationCompat;
 
 import net.cachapa.businesstime.R;
 import net.cachapa.businesstime.activity.MainActivity;
 import net.cachapa.businesstime.manager.TimeManager;
 import net.cachapa.businesstime.model.WorkDay;
 import net.cachapa.businesstime.service.NotificationService;
+
+import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper {
     private static final int NOTIFICATION_ID = 0;

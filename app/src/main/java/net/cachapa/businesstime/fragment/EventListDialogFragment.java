@@ -5,9 +5,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -20,6 +17,10 @@ import net.cachapa.businesstime.model.TimeEvent;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class EventListDialogFragment extends DialogFragment implements View.OnClickListener, TimeManager.OnTimeListener {
     private static final String ARG_DATE = "date";

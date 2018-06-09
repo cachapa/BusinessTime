@@ -1,10 +1,11 @@
 package net.cachapa.businesstime.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import net.cachapa.businesstime.R;
 import net.cachapa.businesstime.fragment.SettingsFragment;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override

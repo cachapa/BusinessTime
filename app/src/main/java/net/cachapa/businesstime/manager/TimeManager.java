@@ -18,7 +18,7 @@ public class TimeManager {
     private List<OnTimeListener> mTimeListeners;
 
     private static TimeManager instance;
-    
+
     public static TimeManager getInstance(Context context) {
         if (instance == null) {
             instance = new TimeManager(context.getApplicationContext());

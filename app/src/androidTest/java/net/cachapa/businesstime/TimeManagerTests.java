@@ -1,6 +1,7 @@
 package net.cachapa.businesstime;
 
-import android.test.AndroidTestCase;
+import android.support.test.filters.SmallTest;
+import android.support.test.runner.AndroidJUnit4;
 import android.text.format.DateUtils;
 
 import junit.framework.Assert;
@@ -8,16 +9,26 @@ import junit.framework.Assert;
 import net.cachapa.businesstime.manager.TimeManager;
 import net.cachapa.businesstime.model.WorkDay;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class TimeManagerTests extends AndroidTestCase {
+import static android.support.test.InstrumentationRegistry.getContext;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+
+@RunWith(AndroidJUnit4.class)
+@SmallTest
+public class TimeManagerTests {
     private TimeManager mTimeManager;
     private Calendar mCalendar;
 
-    @Override
-    protected void setUp() throws Exception {
+    @Before
+    protected void setUp() {
         mTimeManager = TimeManager.getInstance(getContext());
         mCalendar = GregorianCalendar.getInstance();
 
@@ -55,12 +66,14 @@ public class TimeManagerTests extends AndroidTestCase {
         mTimeManager.insertEvent(time, false);
     }
 
-    public void testWorkdayCount() throws Throwable {
+    @Test
+    public void testWorkdayCount() {
         List<Long> workDays = mTimeManager.getWorkDays();
 
         Assert.assertTrue(workDays.size() == 4);
     }
 
+    @Test
     public void testNormalDay() {
         long expectedWorkTime = 8 * DateUtils.HOUR_IN_MILLIS;
         long expectedPauseTime = 1 * DateUtils.HOUR_IN_MILLIS;
@@ -75,6 +88,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertEquals(expectedLeaveTime, workDay.getLeaveTime());
     }
 
+    @Test
     public void testDoubleEntryDay() {
         long expectedTime = 7 * DateUtils.HOUR_IN_MILLIS;
 
@@ -83,6 +97,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertTrue(time == expectedTime);
     }
 
+    @Test
     public void testWorkUntilMidnightDay() {
         long expectedTime = 7 * DateUtils.HOUR_IN_MILLIS;
 
@@ -91,6 +106,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertTrue(time == expectedTime);
     }
 
+    @Test
     public void testWorkFromMidnightDay() {
         long expectedTime = 1 * DateUtils.HOUR_IN_MILLIS;
 
@@ -99,6 +115,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertTrue(time == expectedTime);
     }
 
+    @Test
     public void testNoWorkDay() {
         long expectedTime = 0l;
 
@@ -107,6 +124,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertTrue(time == expectedTime);
     }
 
+    @Test
     public void testTotalWorkTime() {
         long expectedTime = 23 * DateUtils.HOUR_IN_MILLIS;
 
@@ -115,6 +133,7 @@ public class TimeManagerTests extends AndroidTestCase {
         assertTrue(time == expectedTime);
     }
 
+    @Test
     public void testTimeBalance() {
         long shouldWorkTime = 8 * 4 * DateUtils.HOUR_IN_MILLIS;
         long actualWorkTime = 23 * DateUtils.HOUR_IN_MILLIS;
